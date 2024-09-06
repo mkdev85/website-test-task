@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettify": "./node_modules/.bin/prettier --write  src"
+    "prettify": "./node_modules/.bin/prettier --write  src",
+    "generate": "plop"
   },
   "dependencies": {
     "@emotion/cache": "^11.13.1",
@@ -32,6 +33,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.8",
+    "plop": "^4.0.1",
     "typescript": "^5"
   }
 }
