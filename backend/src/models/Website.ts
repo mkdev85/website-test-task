@@ -1,4 +1,3 @@
-// src/entity/Website.ts
 
 import { Entity, PrimaryGeneratedColumn, Column, Unique } from "typeorm";
 

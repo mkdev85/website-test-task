@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import { getRepository } from "typeorm";
-import { Website } from "../models/Website";
 import { AppDataSource } from "../data-source";
 import { handleError, handleSuccess } from "../utils/responseUtils";
 import GetAllWebsitesService from "../services/websites/GetWebsitesService";
@@ -10,13 +8,24 @@ import DeleteWebsiteService from "../services/websites/DeleteWebsiteService";
 export class WebsiteController {
   static async getAllWebsites(req: Request, res: Response) {
     try {
-     
+      // Extract query parameters
+      const page = Math.max(parseInt(req.query.page as string, 10) || 1, 1); // Ensure page is at least 1
+      const limit = Math.max(parseInt(req.query.limit as string, 10) || 10, 1); // Ensure limit is at least 1
+      const search = (req.query.search as string) || "";
+      const status = (req.query.status as string) || "";
+
       const entityManager = AppDataSource.manager; // or AppDataSource.getManager()
-      const [error, users] = await GetAllWebsitesService.run(entityManager);
+      const [error, websites] = await GetAllWebsitesService.run(
+        entityManager,
+        page,
+        limit,
+        search,
+        status
+      );
       if (error) {
         return handleError(res, error);
       }
-      return handleSuccess(res, users);
+      return handleSuccess(res, websites);
     } catch (err) {
       return handleError(res, err as Error);
     }
