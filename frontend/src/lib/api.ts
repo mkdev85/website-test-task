@@ -1,10 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
+
 import {
   handleRequest,
   handleRequestError,
   handleResponse,
   handleResponseError,
-} from "./interceptors";
+} from './interceptors';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 

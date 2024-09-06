@@ -1,8 +1,4 @@
-import type {
-  AxiosError,
-  AxiosResponse,
-  InternalAxiosRequestConfig,
-} from "axios";
+import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 export const handleResponse = (response: AxiosResponse) => {
   return response;
@@ -10,9 +6,9 @@ export const handleResponse = (response: AxiosResponse) => {
 
 export const handleResponseError = (error: AxiosError) => {
   if (error.response) {
-    console.log("HTTP Error:", error.response.status);
+    console.log('HTTP Error:', error.response.status);
   } else if (error.request) {
-    console.log("Network Error", error.request);
+    console.log('Network Error', error.request);
   } else {
     console.log(error.message);
   }

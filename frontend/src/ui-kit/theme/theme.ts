@@ -1,13 +1,13 @@
-import { type ThemeOptions, createTheme } from "@mui/material";
+import { type ThemeOptions, createTheme } from '@mui/material';
 
-import { colors } from "./colors";
+import { Roboto } from 'next/font/google';
 
-import { Roboto } from "next/font/google";
+import { colors } from './colors';
 
 const roboto = Roboto({
-  weight: ["300", "400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
 });
 
 export const themeOptions: ThemeOptions = {

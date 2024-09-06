@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import {
-  QueryCache,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useSnackbar } from "notistack";
-import axios, { AxiosError } from "axios";
+import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import axios, { AxiosError } from 'axios';
+import { useSnackbar } from 'notistack';
 
 interface ErrorResponse {
   message: string;
@@ -15,7 +11,7 @@ interface ErrorResponse {
 
 export const CustomQueryClientProvider: React.FC<{
   children: React.ReactNode;
-}> = (props) => {
+}> = props => {
   const { children } = props;
   const { enqueueSnackbar } = useSnackbar();
 
@@ -37,7 +33,7 @@ export const CustomQueryClientProvider: React.FC<{
 
     enqueueSnackbar({
       message,
-      variant: "error",
+      variant: 'error',
       preventDuplicate: true,
     });
   };
@@ -56,10 +52,8 @@ export const CustomQueryClientProvider: React.FC<{
         },
         queryCache: new QueryCache({
           onError: (error, query) => {
-            const {
-              defaultErrorMessage = "Something went wrong",
-              actionOnError,
-            } = query.meta ?? {};
+            const { defaultErrorMessage = 'Something went wrong', actionOnError } =
+              query.meta ?? {};
 
             handleError(error, defaultErrorMessage);
 
@@ -68,7 +62,7 @@ export const CustomQueryClientProvider: React.FC<{
             }
           },
         }),
-      })
+      }),
   );
 
   return (
