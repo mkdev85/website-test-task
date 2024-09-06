@@ -11,7 +11,7 @@ const roboto = Roboto({
 });
 
 export const themeOptions: ThemeOptions = {
-  spacing: (factor: any) => `${1 * factor}rem`,
+  spacing: (factor: number) => `${1 * factor}rem`,
   palette: {
     primary: {
       main: colors.primary,
