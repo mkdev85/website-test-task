@@ -1,9 +1,9 @@
 import express, { Express } from "express";
 import cors from "cors";
-import { DataSource } from "typeorm";
 
 import { AppDataSource } from "./data-source";
 import config from "./config/config";
+import initRoutes from "./routes";
 
 const PORT: number = config.get("port");
 const app: Express = express();
@@ -14,10 +14,8 @@ app.use(express.json());
 // Setup cors
 app.use(cors());
 
-// Setup morgan
-// app.use(morgan("dev"));
+initRoutes(app);
 
-// initRoutes(app);
 
 // Initialize database connection
 const connectDatabase = async (): Promise<void> => {
