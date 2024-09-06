@@ -4,6 +4,7 @@ import cors from "cors";
 import { AppDataSource } from "./data-source";
 import config from "./config/config";
 import initRoutes from "./routes";
+import { WebsiteSeeder } from "./seeders/WebsiteSeeder";
 
 const PORT: number = config.get("port");
 const app: Express = express();
@@ -18,7 +19,7 @@ initRoutes(app);
 
 
 // Initialize database connection
-const connectDatabase = async (): Promise<void> => {
+export const connectDatabase = async (): Promise<void> => {
   try {
     await AppDataSource.initialize();
     console.log("Database connection has been established successfully.");
@@ -30,7 +31,6 @@ const connectDatabase = async (): Promise<void> => {
 
 const startServer = async (): Promise<void> => {
   await connectDatabase();
-
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
