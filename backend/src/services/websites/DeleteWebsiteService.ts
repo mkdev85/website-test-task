@@ -1,20 +1,24 @@
-import { EntityManager } from "typeorm";
-import { NotFoundError } from "../../utils/error"; // Adjust the import path if necessary
 import { Website } from "../../models/Website";
+import { AppDataSource } from "../../data-source";
+import { mapErrorToErrorType } from "../../utils/helper";
+import { NotFoundError } from "../../utils/error";
 
-class DeleteWebsiteService {
-  static async run(entityManager: EntityManager, id: number): Promise<[Error | null, boolean]> {
-    try {
+interface DeleteWebsiteParams {
+  id: number;
+}
+
+class DeleteWebsiteService {static async run(  params: DeleteWebsiteParams): Promise<[Error | null, boolean]> {
+  try {
+      const { id } = params;
+      const entityManager = AppDataSource.manager;
       const result = await entityManager.delete(Website, id);
 
       if (result.affected === 0) {
-        return [new NotFoundError('Website not found'), false];
+        throw new NotFoundError("Website not found");
       }
-
       return [null, true];
     } catch (error) {
-      console.error('Error deleting website:', error);
-      return [new Error('An unexpected error occurred'), false];
+      return [mapErrorToErrorType(error), null];
     }
   }
 }

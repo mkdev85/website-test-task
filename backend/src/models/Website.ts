@@ -1,5 +1,4 @@
-
-import { Entity, PrimaryGeneratedColumn, Column, Unique } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 export enum WebsiteStatus {
   ONLINE = "online",
@@ -12,10 +11,10 @@ export class Website {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 255 })
+  @Column({ type: "varchar" })
   name: string;
 
-  @Column({ length: 255})
+  @Column({ type: "varchar" })
   url: string;
 
   @Column({
@@ -24,4 +23,10 @@ export class Website {
     default: WebsiteStatus.OFFLINE,
   })
   status: WebsiteStatus;
+
+  @CreateDateColumn({ type: "timestamp" })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: "timestamp" })
+  updatedAt: Date;
 }

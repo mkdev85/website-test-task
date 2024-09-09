@@ -1,8 +1,8 @@
-import { EntityManager } from "typeorm";
 import Joi from "joi";
 import { ValidationError } from "../../utils/error"; // Adjust the import path if necessary
 import { Website } from "../../models/Website";
 import { mapErrorToErrorType } from "../../utils/helper";
+import { AppDataSource } from "../../data-source";
 
 const websiteSchema = Joi.object({
   name: Joi.string().max(255).required(),
@@ -10,11 +10,18 @@ const websiteSchema = Joi.object({
   status: Joi.string().valid("online", "offline").optional(),
 });
 
-class AddWebsiteService { static async run(entityManager: EntityManager, data: Partial<Website>): Promise<[Error | null, Website | null]> {
-  try {
+interface AddWebsiteParams {
+  data: Partial<Website>;
+}
+
+class AddWebsiteService {static async run(params: AddWebsiteParams): Promise<[Error | null, Website | null]> {
+    try {
+      const entityManager = AppDataSource.manager;
+      const { data } = params;
       const { error } = websiteSchema.validate(data);
       if (error) {
-        throw new ValidationError(error.details);
+        
+        throw new ValidationError(error);
       }
 
       const website = new Website();
@@ -27,12 +34,7 @@ class AddWebsiteService { static async run(entityManager: EntityManager, data: P
     } catch (error) {
       if (error.code === "23505") {
         // 23505 is the error code for unique violation in PostgreSQL
-        return [
-          new ValidationError([
-            { message: "URL name already present !", path: ["url"] },
-          ]),
-          null,
-        ];
+        throw new ValidationError(error);
       }
       return [mapErrorToErrorType(error), null];
     }

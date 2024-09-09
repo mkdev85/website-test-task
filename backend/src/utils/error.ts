@@ -1,18 +1,28 @@
-export class ValidationError extends Error {
-  fieldErrors: { fieldName: string; message: string }[];
-  status: number;
+import { ValidationErrorItem } from "joi";
 
-  constructor(details: { path: any; message: string }[]) {
-    super("Validation failed");
-    this.fieldErrors = details.map(({ path, message }) => ({
-      fieldName: path?.[0],
-      message,
-    }));
+type CustomValidationMessage = string | { details: ValidationErrorItem[] };
+
+
+export class ValidationError extends Error {
+  status: number;
+  fieldErrors: { fieldName: string; message: string }[] = [];
+
+  constructor(message: CustomValidationMessage) {
+    super(typeof message === 'string' ? message : "Validation failed");
+
     this.status = 400;
     this.name = 'ValidationError';
+
+    // If message is an object with details, populate fieldErrors
+    if (typeof message !== 'string') {
+      this.fieldErrors = message?.details?.map(({ path, message }: ValidationErrorItem) => ({
+        fieldName: path[0]?.toString() || '',
+        message,
+      }));
+    }
   }
 }
-  
+
   export class NotFoundError extends Error {
     status: number;
   

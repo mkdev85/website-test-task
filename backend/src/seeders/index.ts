@@ -1,6 +1,4 @@
-// src/scripts/seedDatabase.ts
-
-import { AppDataSource } from "../data-source"; // Adjust path as necessary
+import { AppDataSource } from "../data-source"; 
 import { WebsiteSeeder } from "../seeders/WebsiteSeeder";
 
 async function seedDatabase() {

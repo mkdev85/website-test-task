@@ -11,6 +11,8 @@ export class CreateWebsitesTable1625617215684 implements MigrationInterface {
             "name" character varying(255) NOT NULL,
             "url" character varying(255) NOT NULL,
             "status" "website_status_enum" NOT NULL DEFAULT 'offline',
+            "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
+            "updatedAt" TIMESTAMP NOT NULL DEFAULT now(),
             CONSTRAINT "UQ_a34249682ea550940f77969fd7b" UNIQUE ("url"),
             CONSTRAINT "PK_da80e50ae0d986d43c9eb80ab70" PRIMARY KEY ("id")
         )

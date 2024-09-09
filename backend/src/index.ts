@@ -4,28 +4,23 @@ import cors from "cors";
 import { AppDataSource } from "./data-source";
 import config from "./config/config";
 import initRoutes from "./routes";
-import { WebsiteSeeder } from "./seeders/WebsiteSeeder";
 
 const PORT: number = config.get("port");
 const app: Express = express();
 
-// Setup express json
 app.use(express.json());
 
-// Setup cors
 app.use(cors());
 
 initRoutes(app);
 
-
-// Initialize database connection
 export const connectDatabase = async (): Promise<void> => {
   try {
     await AppDataSource.initialize();
     console.log("Database connection has been established successfully.");
   } catch (error) {
     console.error("Unable to connect to the database:", error);
-    process.exit(1); // Exit the process with failure code
+    process.exit(1);
   }
 };
 
