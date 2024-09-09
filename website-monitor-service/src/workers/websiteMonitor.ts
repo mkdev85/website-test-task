@@ -9,14 +9,14 @@ const checkWebsiteStatus = async (id: string, url: string) => {
     await axios.get(url);
     await AppDataSource
       .createQueryBuilder()
-      .update('website')
+      .update('websites')
       .set({ status: 'online' })
       .where('id = :id', { id })
       .execute();
   } catch {
     await AppDataSource
       .createQueryBuilder()
-      .update('website')
+      .update('websites')
       .set({ status: 'offline' })
       .where('id = :id', { id })
       .execute();
