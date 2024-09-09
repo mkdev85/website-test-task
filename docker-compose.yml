@@ -54,64 +54,29 @@ services:
     networks:
       - test-task
 
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: always
+    networks:
+      - test-task
+
+  website-monitor:
+    build:
+      context: ./website-monitor-service
+      dockerfile: Dockerfile
+    env_file:
+      - ./website-monitor-service/.env
+    volumes:
+      - ./website-monitor-service:/website-monitor-service
+      - /website-monitor-service/node_modules  
+    depends_on:
+      - redis
+      - db
+    restart: always
+    networks:
+      - test-task
+
 volumes:
   postgres-data:
-
-
-# version: '3.8'
-
-# networks:
-#   test-task:
-#     name: test-task
-
-# volumes:
-#   postgres-data:
-
-# services:
-#   app:
-#     build:
-#       context: ./backend
-#       dockerfile: Dockerfile
-#     env_file: 
-#       - ./backend/.env
-#     ports:
-#       - "${APP_PORT}:${APP_PORT}"  # Uses dynamic port mapping from .env file
-#     volumes:
-#       - ./backend:/app
-#       - /app/node_modules
-#     depends_on:
-#       - db
-#     restart: always
-#     networks:
-#       - test-task
-
-#   db:
-#     image: postgres:latest
-#     env_file:
-#       - ./backend/.env
-#     environment:
-#       POSTGRES_USER: ${DB_USER}           # Maps .env variables to PostgreSQL env vars
-#       POSTGRES_PASSWORD: ${DB_PASSWORD}
-#       POSTGRES_DB: ${DB_NAME}
-#     ports:
-#       - "5432:5432"
-#     volumes:
-#       - postgres-data:/var/lib/postgresql/data
-#       - ./backend/database-init.sh:/docker-entrypoint-initdb.d/init.sh  
-#     restart: always
-#     networks:
-#       - test-task
-
-#   frontend:
-#     build:
-#       context: ./frontend
-#       dockerfile: Dockerfile
-#     env_file:
-#       - ./frontend/.env  
-#     ports:
-#       - "${FRONTEND_PORT}:${FRONTEND_PORT}"  # Uses dynamic port mapping from .env file
-#     volumes:
-#       - ./frontend:/frontend 
-#     restart: always
-#     networks:
-#       - test-task  

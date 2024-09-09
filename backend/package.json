@@ -10,7 +10,7 @@
     "migration:generate": "npm run typeorm migration:generate -- -d ./typeorm.config.ts ./src/migrations/createuser.ts",
     "migration:run": "npm run typeorm -- migration:run -d src/data-source.ts",
     "seed": "ts-node src/seeders/index.ts",
-    "dev": "nodemon",
+    "dev": "./node_modules/.bin/nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
