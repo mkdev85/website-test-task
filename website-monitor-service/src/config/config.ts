@@ -69,7 +69,20 @@ const config = convict({
       default: 'password',
       env: 'POSTGRES_PASSWORD'
     }
+  },
+  monitorInterval: {
+    doc: 'Website monitoring interval in milliseconds',
+    format: 'int',
+    default: 120000,
+    env: 'MONITOR_INTERVAL'
+  },
+  randomWebsiteUpdateInterval: {
+    doc: 'Update website status randomly every minute',
+    format: 'int',
+    default: 60000,
+    env: 'RANDOM_WEBSITE_UPDATE_INTERVAL'
   }
+  
 });
 
 // Load environment-dependent configuration

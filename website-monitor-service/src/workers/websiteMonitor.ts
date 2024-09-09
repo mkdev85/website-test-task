@@ -4,24 +4,23 @@ import { AppDataSource } from '../data-source';
 import { getAllWebsites } from '../services/website/getAllWebsites'; 
 
 // Function to check website status
-const checkWebsiteStatus = async (id: string, url: string) => {
+ const checkWebsiteStatus = async (id: string, url: string) => {
+  let status: string;
   try {
     await axios.get(url);
-    await AppDataSource
-      .createQueryBuilder()
-      .update('websites')
-      .set({ status: 'online' })
-      .where('id = :id', { id })
-      .execute();
+    status = 'online';
   } catch {
-    await AppDataSource
-      .createQueryBuilder()
-      .update('websites')
-      .set({ status: 'offline' })
-      .where('id = :id', { id })
-      .execute();
+    status = 'offline';
   }
+
+  await AppDataSource
+    .createQueryBuilder()
+    .update('websites')
+    .set({ status })
+    .where('id = :id', { id })
+    .execute();
 };
+
 
 // Process jobs from the queue
 websiteMonitorQueue.process('website-monitoring', async () => {

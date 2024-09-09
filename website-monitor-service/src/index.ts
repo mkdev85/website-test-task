@@ -1,7 +1,9 @@
 import { AppDataSource } from "./data-source";
-import './workers/websiteMonitor';
+import "./workers/websiteMonitor";
+import "./workers/updateWebsitesStatus";
 
-import { enqueueWebsiteMonitoringJob } from './jobs/websiteMonitor';
+import { enqueueWebsiteMonitoringJob } from "./jobs/websiteMonitor";
+import { enqueueRandomWebsiteUpdateJob } from "./jobs/randomWebsiteUpdate";
 
 export const connectDatabase = async (): Promise<void> => {
   try {
@@ -16,6 +18,7 @@ export const connectDatabase = async (): Promise<void> => {
 const initializeApp = async () => {
   await connectDatabase();
   enqueueWebsiteMonitoringJob();
-}
+  enqueueRandomWebsiteUpdateJob();
+};
 
 initializeApp();

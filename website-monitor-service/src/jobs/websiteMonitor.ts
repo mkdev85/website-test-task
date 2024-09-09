@@ -1,11 +1,12 @@
+import clc from 'cli-color';
+import config from '../config/config';
 import { websiteMonitorQueue } from '../queue';
 
 export const enqueueWebsiteMonitoringJob = async () => {
-  console.log('Enqueuing website monitoring jobs...');
-  
+  const interval = config.get('monitorInterval');
   await websiteMonitorQueue.add('website-monitoring', {}, {
-    repeat: { every: 120 * 1000 }
+    repeat: { every: interval}
   });
-  console.log('Enqueued monitoring job');
+  console.log(clc.green('Enqueued monitoring job'));
 };
 

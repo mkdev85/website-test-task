@@ -12,3 +12,4 @@ const redisConfig = {
 };
 
 export const websiteMonitorQueue = new Bull('website-monitoring', redisConfig);
+export const randomWebsiteUpdateQueue = new Bull('random-website-update', redisConfig);
