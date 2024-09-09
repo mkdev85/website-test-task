@@ -1,5 +1,5 @@
 # Use the official Node.js image
-FROM node:latest
+FROM node:21-alpine
 
 # Set the working directory in the container
 WORKDIR /frontend
