@@ -9,7 +9,7 @@ const config = convict({
   port: {
     doc: 'The port to bind.',
     format: 'port',
-    default: 6000,
+    default: 4000,
     env: 'PORT'
   },
   nodeEnv: {
@@ -29,31 +29,31 @@ const config = convict({
       doc: 'Database host name/IP',
       format: String,
       default: 'localhost',
-      env: 'DB_HOST'
+      env: 'POSTGRES_HOST'
     },
     port: {
       doc: 'Database port',
       format: 'port',
       default: 5432,
-      env: 'DB_PORT'
+      env: 'POSTGRES_PORT'
     },
     name: {
       doc: 'Database name',
       format: String,
       default: 'mydatabase',
-      env: 'DB_NAME'
+      env: 'POSTGRES_DB'
     },
     username: {
       doc: 'Database username',
       format: String,
       default: 'user',
-      env: 'DB_USERNAME'  
+      env: 'POSTGRES_USERNAME'  
     },
     password: {
       doc: 'Database password',
       format: String,
       default: 'password',
-      env: 'DB_PASSWORD'
+      env: 'POSTGRES_PASSWORD'
     }
   }
 });
