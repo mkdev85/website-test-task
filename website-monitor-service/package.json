@@ -1,0 +1,28 @@
+{
+  "name": "website-monitor-service",
+  "version": "1.0.0",
+  "description": "Service to monitor website statuses using Bull and TypeORM",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "axios": "^1.3.1",
+    "bull": "^4.9.1",
+    "convict": "^6.2.4",
+    "dotenv": "^16.4.5",
+    "pg": "^8.12.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "@types/convict": "^6.1.6",
+    "@types/node": "^22.5.0",
+    "@types/pg": "^8.11.6",
+    "nodemon": "^3.1.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}

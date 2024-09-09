@@ -1,0 +1,13 @@
+{
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "name": "website-test",
+    "username": "postgres",
+    "password": "postgres"
+  },
+  "redis": {
+    "host": "localhost",
+    "port": 6379
+  }
+}
