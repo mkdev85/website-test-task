@@ -18,7 +18,6 @@ tmp/
 
 # Docker files
 .dockerignore
-Dockerfile
 
 # IDE and OS-specific files
 .vscode/
