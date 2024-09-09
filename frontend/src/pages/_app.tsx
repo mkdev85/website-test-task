@@ -1,3 +1,4 @@
+import { Layout } from '@/components/Layout/Layout';
 import { CustomQueryClientProvider } from '@/hoc/CustomQueryClientProvider';
 import '@/styles/globals.css';
 import { defaultTheme } from '@/ui-kit/theme/theme';
@@ -11,7 +12,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <AppCacheProvider {...pageProps}>
       <ThemeProvider theme={defaultTheme}>
         <CustomQueryClientProvider>
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </CustomQueryClientProvider>
       </ThemeProvider>
     </AppCacheProvider>
