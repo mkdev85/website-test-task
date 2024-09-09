@@ -34,12 +34,24 @@ logs:
 shell:
 	@$(DOCKER_COMPOSE) exec app sh
 
+logs-frontend:
+	$(DOCKER_COMPOSE) logs -f frontend
+
+logs-backend:
+	$(DOCKER_COMPOSE) logs -f backend
+
+logs-website-monitor:
+	$(DOCKER_COMPOSE) logs -f website-monitor
+
+db:
+	$(DOCKER_COMPOSE) logs -f db
+
 install:
 	@echo "Installing Node.js dependencies..."
 	@docker compose run --rm app npm install
 
 clean-containers:
-	@$(DOCKER) rm -f $$(docker ps -aq)
+	@docker rm -f $$(docker ps -aq)
 	@echo "Containers successfully removed..."
 
 ps:
