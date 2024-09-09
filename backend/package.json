@@ -8,7 +8,7 @@
     "build": "tsc",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "migration:generate": "npm run typeorm migration:generate -- -d ./typeorm.config.ts ./src/migrations/createuser.ts",
-    "migration:run": "npm run typeorm migration:run -- -d ./typeorm.config.ts",
+    "migration:run": "npm run typeorm -- migration:run -d src/data-source.ts",
     "seed": "ts-node src/seeders/index.ts",
     "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"

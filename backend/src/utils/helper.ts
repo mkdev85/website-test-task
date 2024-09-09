@@ -1,5 +1,5 @@
 import Joi, { Schema, ValidationResult } from "joi";
-import { AuthenticateError, NotFoundError, ValidationError } from "./error";
+import { AuthenticateError, NotFoundError, UniqueConstraintError, ValidationError } from "./error";
 import { handleError, handleSuccess } from "./responseUtils";
 import { Response } from "express";
 
@@ -23,7 +23,8 @@ export const mapErrorToErrorType = (error: unknown): Error => {
   if (
     error instanceof ValidationError ||
     error instanceof NotFoundError ||
-    error instanceof AuthenticateError
+    error instanceof AuthenticateError||
+    error instanceof UniqueConstraintError
   ) {
     return error; // Return the known error as is
   }

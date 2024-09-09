@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { NotFoundError, ValidationError } from "../../utils/error"; // Adjust the import path if necessary
+import { NotFoundError, ValidationError } from "../../utils/error"; 
 import { Website } from "../../models/Website";
 import { mapErrorToErrorType } from "../../utils/helper";
 import { AppDataSource } from "../../data-source";

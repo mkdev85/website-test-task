@@ -43,3 +43,13 @@ export class ValidationError extends Error {
     }
   }
   
+  export class UniqueConstraintError extends Error {
+    status: number;
+  
+    constructor(message: string) {
+      super(message);
+      this.status = 404;
+      this.name = 'UniqueConstraintError';
+    }
+  }
+

@@ -8,7 +8,7 @@ export enum WebsiteStatus {
 @Entity("websites")
 @Unique(["url"]) 
 export class Website {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({ type: "varchar" })

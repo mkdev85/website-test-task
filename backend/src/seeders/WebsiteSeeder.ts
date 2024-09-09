@@ -1,6 +1,4 @@
-// src/seeders/WebsiteSeeder.ts
-
-import { AppDataSource } from "../data-source"; // Adjust path as necessary
+import { AppDataSource } from "../data-source"; 
 import { Website, WebsiteStatus } from "../models/Website";
 
 export class WebsiteSeeder {

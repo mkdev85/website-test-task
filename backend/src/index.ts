@@ -4,6 +4,7 @@ import cors from "cors";
 import { AppDataSource } from "./data-source";
 import config from "./config/config";
 import initRoutes from "./routes";
+import morgan from "morgan";
 
 const PORT: number = config.get("port");
 const app: Express = express();
@@ -11,6 +12,8 @@ const app: Express = express();
 app.use(express.json());
 
 app.use(cors());
+
+app.use(morgan('dev'));
 
 initRoutes(app);
 

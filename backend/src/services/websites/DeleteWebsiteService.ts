@@ -18,7 +18,7 @@ class DeleteWebsiteService {static async run(  params: DeleteWebsiteParams): Pro
       }
       return [null, true];
     } catch (error) {
-      return [mapErrorToErrorType(error), null];
+      return [mapErrorToErrorType(error), false];
     }
   }
 }

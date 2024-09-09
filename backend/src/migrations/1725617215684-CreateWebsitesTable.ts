@@ -7,7 +7,7 @@ export class CreateWebsitesTable1625617215684 implements MigrationInterface {
     await queryRunner.query(`CREATE TYPE "website_status_enum" AS ENUM('online', 'offline')`);
     await queryRunner.query(`
         CREATE TABLE "websites" (
-            "id" SERIAL NOT NULL,
+            "id" UUID DEFAULT uuid_generate_v4() NOT NULL,
             "name" character varying(255) NOT NULL,
             "url" character varying(255) NOT NULL,
             "status" "website_status_enum" NOT NULL DEFAULT 'offline',
