@@ -24,7 +24,7 @@ const checkWebsiteStatus = async (id: string, url: string) => {
 };
 
 // Process jobs from the queue
-websiteMonitorQueue.process('monitor', async () => {
+websiteMonitorQueue.process('website-monitoring', async () => {
   const startTime = Date.now();
   console.log(`Job started at: ${new Date(startTime).toISOString()}`);
   
