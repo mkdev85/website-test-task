@@ -15,8 +15,9 @@ export const Header: React.FC<HeaderProps> = props => {
           <Typography className="header-text" variant="h6" noWrap component="div">
             Website Monitor
           </Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <AddWebsiteButton />
+          <Box>
+            <AddWebsiteButton />
+          </Box>
         </Toolbar>
       </AppBar>
     </HeaderWrapper>

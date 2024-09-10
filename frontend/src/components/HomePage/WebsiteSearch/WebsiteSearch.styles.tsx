@@ -2,6 +2,9 @@ import { Box, styled } from '@mui/material';
 
 export const SearchWrapper = styled('div')(({ theme }) => ({
   marginBottom: theme.spacing(2.5),
+  maxWidth: theme.spacing(80),
+  marginLeft: 'auto',
+  marginRight: 'auto',
 }));
 
 export const SearchContainer = styled(Box)(({ theme }) => ({
