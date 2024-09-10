@@ -9,6 +9,7 @@ export const MobileFirstResponsiveTableWrapper = styled(Table)(({ theme }) => ({
   '& th': {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
+    fontSize: theme.spacing(1),
     fontWeight: 'bold',
     padding: '16px',
     textAlign: 'center',
