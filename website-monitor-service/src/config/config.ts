@@ -82,7 +82,6 @@ const config = convict({
     default: 60000,
     env: 'RANDOM_WEBSITE_UPDATE_INTERVAL'
   }
-  
 });
 
 // Load environment-dependent configuration

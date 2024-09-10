@@ -23,8 +23,6 @@ services:
     image: postgres:alpine
     env_file:
       - ./backend/.env
-    ports:
-      - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./backend/database-init.sh:/docker-entrypoint-initdb.d/init.sh  
@@ -52,8 +50,6 @@ services:
 
   redis:
     image: redis:latest
-    ports:
-      - "6379:6379"
     restart: always
     networks:
       - test-task
