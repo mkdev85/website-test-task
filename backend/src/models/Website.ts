@@ -9,7 +9,7 @@ export enum WebsiteStatus {
 @Unique(["url"]) 
 export class Website {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ type: "varchar" })
   name: string;

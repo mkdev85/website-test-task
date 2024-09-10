@@ -2,6 +2,7 @@ import Joi, { Schema, ValidationResult } from "joi";
 import { AuthenticateError, NotFoundError, UniqueConstraintError, ValidationError } from "./error";
 import { handleError, handleSuccess } from "./responseUtils";
 import { Response } from "express";
+import { ERRORS } from "../constant";
 
 interface JoiFieldsValidatorParams<T> {
   schema: Schema;
@@ -29,7 +30,7 @@ export const mapErrorToErrorType = (error: unknown): Error => {
     return error; // Return the known error as is
   }
   // Handle unknown errors or wrap in a generic error
-  return new Error("An unexpected error occurred");
+  return new Error(ERRORS.UNEXPECTED);
 };
 
 interface ServiceParams<T> {

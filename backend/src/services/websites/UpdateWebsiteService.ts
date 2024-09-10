@@ -1,37 +1,40 @@
 import Joi from "joi";
-import { NotFoundError, ValidationError } from "../../utils/error"; 
+import { NotFoundError, ValidationError } from "../../utils/error";
 import { Website } from "../../models/Website";
 import { mapErrorToErrorType } from "../../utils/helper";
 import { AppDataSource } from "../../data-source";
+import { ERRORS } from "../../constant";
 
 const websiteUpdateSchema = Joi.object({
-  name: Joi.string().max(255).optional(),
-  url: Joi.string().max(255).optional(),
-  status: Joi.string().valid("online", "offline").optional(),
-});
+  name: Joi.string().trim().max(255).optional(),
+  url: Joi.string().trim().uri().max(255).optional(),
+}).or("name", "url");
 
 interface UpdateWebsiteParams {
-  id: number;
-  data: Partial<Website>;
+  id: string;
+  name?: string;
+  url?: string;
 }
 
-class UpdateWebsiteService {static async run(params: UpdateWebsiteParams): Promise<[Error | null, Website | null]> {
+class UpdateWebsiteService {
+  static async run(params: UpdateWebsiteParams): Promise<[Error | null, Website | null]> {
     try {
       const entityManager = AppDataSource.manager;
-      const { id, data } = params;
-      const { error } = websiteUpdateSchema.validate(data);
+      const { id, name, url } = params;
+
+      const { error } = websiteUpdateSchema.validate({ name, url });
       if (error) {
         throw new ValidationError(error);
       }
-
       const website = await entityManager.findOneBy(Website, { id });
       if (!website) {
-        throw new NotFoundError("Website not found");
+        throw new NotFoundError(ERRORS.NOT_FOUND);
       }
-      const updatedWebsite = Object.assign(website, data);
+      if (name) website.name = name;
+      if (url) website.url = url;
 
-      await entityManager.save(updatedWebsite);
-      return [null, updatedWebsite];
+      await entityManager.save(website);
+      return [null, website];
     } catch (error) {
       return [mapErrorToErrorType(error), null];
     }

@@ -18,6 +18,7 @@ app.use(morgan('dev'));
 initRoutes(app);
 
 export const connectDatabase = async (): Promise<void> => {
+  
   try {
     await AppDataSource.initialize();
     console.log("Database connection has been established successfully.");
@@ -28,6 +29,7 @@ export const connectDatabase = async (): Promise<void> => {
 };
 
 const startServer = async (): Promise<void> => {
+  
   await connectDatabase();
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

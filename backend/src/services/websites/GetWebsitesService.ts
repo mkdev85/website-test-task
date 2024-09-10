@@ -5,21 +5,26 @@ import { AppDataSource } from "../../data-source";
 interface PageData {
   page: number;
   pageSize: number;
-  search: string;
+  searchByWebsiteKeyword: string;
   status: string;
+}
+interface GetAllWebsitesResponse {
+  websites: Website[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
 }
 
 class GetAllWebsitesService {
-  static async run(params: PageData): Promise<[Error | null, { websites: Website[]; totalCount: number; page: number; pageSize: number } | null]> {
+  static async run(params: PageData): Promise<[Error | null, GetAllWebsitesResponse | null]> {
     try {
-      const { page, search, pageSize, status } = params;
+      const { page, searchByWebsiteKeyword, pageSize, status } = params;
       const entityManager = AppDataSource.manager;
       const queryBuilder = entityManager.createQueryBuilder(Website, "website");
 
-      // Apply filters
-      if (search) {
+      if (searchByWebsiteKeyword) {
         queryBuilder.andWhere("website.name ILIKE :search", {
-          search: `%${search}%`,
+          search: `%${searchByWebsiteKeyword}%`,
         });
       }
       if (status) {
@@ -27,6 +32,7 @@ class GetAllWebsitesService {
       }
 
       const [websites, count] = await queryBuilder
+        .orderBy("website.createdAt", "DESC")
         .skip((page - 1) * pageSize)
         .take(pageSize)
         .getManyAndCount();

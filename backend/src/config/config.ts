@@ -10,7 +10,7 @@ const config = convict({
     doc: 'The port to bind.',
     format: 'port',
     default: 4000,
-    env: 'PORT'
+    env: 'APP_PORT'
   },
   nodeEnv: {
     doc: 'The application environment.',

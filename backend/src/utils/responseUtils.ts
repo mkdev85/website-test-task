@@ -1,3 +1,4 @@
+import { ERRORS } from "../constant";
 import { AuthenticateError, NotFoundError, ValidationError } from "./error";
 import { Response } from "express";
 
@@ -25,7 +26,7 @@ export const handleError = (res: Response, error: Error): Response => {
   }
 
   return res.status(500).send({
-    message: 'Internal Server Error',
+    message: ERRORS.INTERNAL_SERVER,
     success: false,
   });
 };
