@@ -30,7 +30,7 @@ export const AddWebsiteDialog: React.FC<AddWebsiteDialogProps> = props => {
     validationSchema: Yup.object({
       name: Yup.string().required('Website name is required'),
       url: Yup.string()
-        .url('Invalid URL (eg. http://wwww.example.com)')
+        .url('Enter valid URL (e.g. http://example.com or https://example.com)')
         .required('Website URL is required'),
     }),
     onSubmit: values => {
