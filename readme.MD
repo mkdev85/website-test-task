@@ -1,6 +1,6 @@
 # Website List Test App
 
-A brief description of what this test task does:
+A brief description of what this microservice-based test task does:
 
 ## Table of Contents
 - [Basic Usage](#usage)
@@ -10,7 +10,7 @@ A brief description of what this test task does:
 - [Project Setup](#project-setup)
 - [Technical Implementation](#technical-implementation)
   - [Basic Architechture Diagram](#basic-architechture-diagram)
-  - [Implementation Details](#implementation-details)
+  - [Implementation Details (Microservices)](#implementation-details)
 
 ## Usage
 
@@ -26,8 +26,8 @@ A brief overview of the basic features of this app.
  
    - **Model**:  A single model for websites includes the following fields:
      - status
-     - url
-     - name [Note: name is unique]
+     - url [Note: url is unique]
+     - name 
    
 
   - As per the task, we have implemented following APIs:
@@ -41,15 +41,15 @@ A brief overview of the basic features of this app.
     
     - **POST** `/api/v1/websites`
 
-      Description: Creates a new website using the status and url.
+      Description: Creates a new website using the name and url.
     
     - **PUT** `/api/v1/websites/:id`
 
-      Description: Updates a specific website's information by ID.
+      Description: Updates a specific website's information by id.
     
     - **DELETE** `/api/v1/websites/:id`
 
-      Description: Deletes a specific website by ID.
+      Description: Deletes a specific website by id.
 
 ## Libraries
 
@@ -116,6 +116,7 @@ This command internally calls `docker compose build` to build all services (back
 #### Start Services: ####
 
 Once build done, you can use following command to start the services:
+
 `sudo make up` 
 
 This command will internally call the `docker compose up` command and run all the services in detach mode.
@@ -135,9 +136,11 @@ Some other `make commands` for the `docker services`:
 
 #### Ports exposed
 - For frontend:
+
   You can check `localhost:3000`
 
 - For backend:
+
   You can check `localhost:4000`
 
 ## Technical Implementation
@@ -148,7 +151,7 @@ Some other `make commands` for the `docker services`:
     
 ### Implementation Details
 
-The project uses Docker and Docker Compose to manage various services. You can check `docker-compose.yml` 
+The project uses a **microservices architecture** with Docker and Docker Compose to manage various services. You can check `docker-compose.yml` 
 file for more details.
 
 We have divided this task into following services:
@@ -175,14 +178,15 @@ We have divided this task into following services:
 
 **Website Monitor service**: 
 
-As per the requirement, we have to check the websites status after certain periods. **Now if we use the same backend service for scheduling the cron job then there would following issues:**
+As per the requirement, we have to check the websites status after certain periods. **Now if we use the same backend service for scheduling the cron job then there would be following issues:**
 - It would block the main backend service event loop.
 - There would be latency issues for client requests.
-- Client might face timeout for some request.
+- Client may face timeout while calling the backend APIs.
 
 Now, to overcome all the issues, we have created separate service i.e `website-monitor service`. This service do following:
 - It uses the `bull` package for scheduling the cron job which internally uses the `redis`for queuing.
 - We are running two `cron jobs` in this service:
+
   **website-monitoring**: 
    - This job runs after every 2 minutes.
    - It fetched all the websites data and check the each website status. Please have a look at the following code snippet:
@@ -200,8 +204,8 @@ Now, to overcome all the issues, we have created separate service i.e `website-m
      - `Promise.race`: While checking the status using the above code snippet, It might possible that we don't get any response until 6-7 seconds, In such case, we stop the status checking after `3 seconds` using the `Promise.race`.
 
    **random-website-update**: 
-    - This job is used to make `website status` more interactive on frontend side. This implementation only did for the test task.
-    - The idea behind this job implementation is that the website status is rarely update, so we will not see any frequent status update  on the frontend side. Now, to make it look more interactice, In this job, we are doing following:
+    - This job is used to make `website status` more interactive on frontend side. This implementation only did for the test task, It is used only for the development mode.
+    - The idea behind this job implementation is that the website status is rarely update, so we will not see any frequent status update on the frontend side. Now, to make it look more interactice, We are doing following in this job:
       - This job would run after event minutes.
       - It randomly selects the 10 websites records.
       - Toggle websites records i.e if website records is `online` the change it to `offline` or if website status is `offline` then change it to `online`   
