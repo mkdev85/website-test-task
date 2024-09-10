@@ -13,10 +13,15 @@ import {
 
 import { useRouter } from 'next/router';
 
+import { WebsiteStatusFilter } from '@/constants/enums';
+import { validWebsiteStatusFilter } from '@/helpers/filterHelper';
 import { useGetWebsitesQuery } from '@/queries/useGetWebsitesQuery';
+import { CustomLoading } from '@/ui-kit/theme/components/CustomLoading/CustomLoading';
 import { MobileFirstResponsiveTable } from '@/ui-kit/theme/components/MobileFirstResponsiveTable/MobileFirstResponsiveTable';
 import { MobileFirstResponsiveTableContainer } from '@/ui-kit/theme/components/MobileFirstResponsiveTableContainer/MobileFirstResponsiveTableContainer';
 import { StatusChip } from '@/ui-kit/theme/components/StatusChip/StatusChip';
+
+import { WebsiteSearch } from '../WebsiteSearch/WebsiteSearch';
 
 import type { WebsitesListProps } from './WebsitesList.props';
 import { WebsitesListWrapper } from './WebsitesList.styles';
@@ -25,9 +30,21 @@ export const WebsitesList: React.FC<WebsitesListProps> = props => {
   const router = useRouter();
   const page = Math.max(1, Number(router.query.page) || 1);
   const rowsPerPage = Number(router.query.rowsPerPage) || 10;
+  const searchText = (router.query.search as string) || '';
+  const statusFilter = (router.query.filter as string) || WebsiteStatusFilter.all;
+
   const rowsPerPageOptions = [10, 15, 20];
 
-  const { data: responseData, isLoading, isError } = useGetWebsitesQuery({ page, rowsPerPage });
+  const {
+    data: responseData,
+    isLoading,
+    isError,
+  } = useGetWebsitesQuery({
+    page,
+    rowsPerPage,
+    searchText,
+    statusFilter: validWebsiteStatusFilter(statusFilter),
+  });
 
   const websites = responseData?.data?.websites;
   const totalCount = responseData?.data?.totalCount;
@@ -57,8 +74,11 @@ export const WebsitesList: React.FC<WebsitesListProps> = props => {
     // TODO: Implement delete logic
   };
 
+  if (isLoading) return <CustomLoading />;
+
   return (
     <WebsitesListWrapper>
+      <WebsiteSearch />
       <MobileFirstResponsiveTableContainer>
         <MobileFirstResponsiveTable className="mobile-optimised" aria-label="website table">
           <TableHead>

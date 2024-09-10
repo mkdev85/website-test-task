@@ -1,18 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { WebsiteStatus, WebsiteStatusFilter } from '@/constants/enums';
 import api from '@/lib/api';
 import type { ReactQueryOptions } from '@/lib/react-query';
 
 interface GetWebsitesQueryParams {
   page: number;
   rowsPerPage: number;
+  searchText: string;
+  statusFilter: WebsiteStatusFilter;
 }
 
 export interface Website {
   id: string;
   name: string;
   url: string;
-  status: string;
+  status: WebsiteStatus;
   createdAt: string;
   updatedAt: string;
 }
@@ -28,15 +31,23 @@ interface BackendResponse {
   data?: GetWebsitesData;
 }
 
-export function getGetWebsitesQuery(params: GetWebsitesQueryParams = { page: 1, rowsPerPage: 10 }) {
+export function getGetWebsitesQuery(
+  params: GetWebsitesQueryParams = {
+    page: 1,
+    rowsPerPage: 10,
+    searchText: '',
+    statusFilter: WebsiteStatusFilter.all,
+  },
+) {
   const transformedParms = {
     page: params.page,
     page_size: params.rowsPerPage,
+    search_by_website_keyword: params.searchText,
+    status: params.statusFilter,
   };
 
   const queryKey = ['get-websites', params];
   const queryFn = async () => {
-    // TODO: set your endpoint here
     const response = await api.get('/websites/', { params: transformedParms });
 
     if (!response.data) {
@@ -52,7 +63,12 @@ export function getGetWebsitesQuery(params: GetWebsitesQueryParams = { page: 1, 
 }
 
 export function useGetWebsitesQuery(
-  params: GetWebsitesQueryParams = { page: 1, rowsPerPage: 10 },
+  params: GetWebsitesQueryParams = {
+    page: 1,
+    rowsPerPage: 10,
+    searchText: '',
+    statusFilter: WebsiteStatusFilter.all,
+  },
   options: ReactQueryOptions<BackendResponse> = {},
 ) {
   const { queryKey, queryFn } = getGetWebsitesQuery(params);
