@@ -43,7 +43,7 @@ logs-backend:
 logs-website-monitor:
 	$(DOCKER_COMPOSE) logs -f website-monitor
 
-db:
+logs-db:
 	$(DOCKER_COMPOSE) logs -f db
 
 install:
