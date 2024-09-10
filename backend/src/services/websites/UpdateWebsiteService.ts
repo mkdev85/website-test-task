@@ -4,6 +4,7 @@ import { Website } from "../../models/Website";
 import { mapErrorToErrorType } from "../../utils/helper";
 import { AppDataSource } from "../../data-source";
 import { ERRORS } from "../../constant";
+import { checkWebsiteStatus } from "../../utils/websiteUtils";
 
 const websiteUpdateSchema = Joi.object({
   name: Joi.string().trim().max(255).optional(),
@@ -17,7 +18,9 @@ interface UpdateWebsiteParams {
 }
 
 class UpdateWebsiteService {
-  static async run(params: UpdateWebsiteParams): Promise<[Error | null, Website | null]> {
+  static async run(
+    params: UpdateWebsiteParams
+  ): Promise<[Error | null, Website | null]> {
     try {
       const entityManager = AppDataSource.manager;
       const { id, name, url } = params;
@@ -31,7 +34,11 @@ class UpdateWebsiteService {
         throw new NotFoundError(ERRORS.NOT_FOUND);
       }
       if (name) website.name = name;
-      if (url) website.url = url;
+
+      if (url) {
+        website.url = url;
+        website.status = await checkWebsiteStatus(url);
+      }
 
       await entityManager.save(website);
       return [null, website];
