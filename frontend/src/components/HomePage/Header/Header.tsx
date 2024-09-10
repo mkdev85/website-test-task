@@ -2,6 +2,8 @@ import React from 'react';
 
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 
+import { AddWebsiteButton } from '../AddWebsiteButton/AddWebsiteButton';
+
 import { HeaderProps } from './Header.props';
 import { HeaderWrapper } from './Header.styles';
 
@@ -14,10 +16,7 @@ export const Header: React.FC<HeaderProps> = props => {
             Website Monitor
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-
-          <Button color="inherit" variant="outlined">
-            Add Website
-          </Button>
+          <AddWebsiteButton />
         </Toolbar>
       </AppBar>
     </HeaderWrapper>
