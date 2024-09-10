@@ -4,6 +4,7 @@ import AddWebsiteService from "../services/websites/AddWebsiteService";
 import DeleteWebsiteService from "../services/websites/DeleteWebsiteService";
 import UpdateWebsiteService from "../services/websites/UpdateWebsiteService";
 import { responseHandler } from "../utils/helper";
+import GetWebsiteStatusService from "../services/websites/GetWebsiteStatusService";
 
 export class WebsiteController {
   static async getAllWebsites(req: Request, res: Response) {
@@ -19,6 +20,15 @@ export class WebsiteController {
       response: res,
     });
   }
+  static async getWebsiteStatus(req: Request, res: Response) {
+    const id = req.params.id;
+    return responseHandler({
+      service: GetWebsiteStatusService,
+      params: { id },
+      response: res,
+    });
+  }
+
 
   static async addWebsite(req: Request, res: Response) {
     const data = {

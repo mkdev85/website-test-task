@@ -1,4 +1,4 @@
-import { Website } from "../../models/Website";
+import { Website, WebsiteStatus } from "../../models/Website";
 import { mapErrorToErrorType } from "../../utils/helper";
 import { AppDataSource } from "../../data-source";
 
@@ -16,7 +16,9 @@ interface GetAllWebsitesResponse {
 }
 
 class GetAllWebsitesService {
-  static async run(params: PageData): Promise<[Error | null, GetAllWebsitesResponse | null]> {
+  static async run(
+    params: PageData
+  ): Promise<[Error | null, GetAllWebsitesResponse | null]> {
     try {
       const { page, searchByWebsiteKeyword, pageSize, status } = params;
       const entityManager = AppDataSource.manager;
@@ -27,7 +29,10 @@ class GetAllWebsitesService {
           search: `%${searchByWebsiteKeyword}%`,
         });
       }
-      if (status) {
+
+      const validatedStatus = Object.values(WebsiteStatus).includes(status as WebsiteStatus)? (status as WebsiteStatus): "";
+
+      if (validatedStatus) {
         queryBuilder.andWhere("website.status = :status", { status });
       }
 
