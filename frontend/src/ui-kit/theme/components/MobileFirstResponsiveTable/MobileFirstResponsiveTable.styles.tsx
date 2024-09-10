@@ -1,5 +1,7 @@
 import { styled, Table } from '@mui/material';
 
+import { colors } from '../../colors';
+
 export const MobileFirstResponsiveTableWrapper = styled(Table)(({ theme }) => ({
   width: '100%',
   borderCollapse: 'separate',
@@ -9,17 +11,12 @@ export const MobileFirstResponsiveTableWrapper = styled(Table)(({ theme }) => ({
     color: theme.palette.primary.contrastText,
     fontWeight: 'bold',
     padding: '16px',
-    textAlign: 'left',
-    '&:last-child': {
-      textAlign: 'right',
-    },
+    textAlign: 'center',
   },
   '& td': {
     padding: '16px',
     borderBottom: `1px solid ${theme.palette.divider}`,
-    '&:last-child': {
-      textAlign: 'right',
-    },
+    textAlign: 'center',
   },
   '& tr:last-child td': {
     borderBottom: 'none',
@@ -27,7 +24,7 @@ export const MobileFirstResponsiveTableWrapper = styled(Table)(({ theme }) => ({
   '& tr:nth-of-type(even)': {
     backgroundColor: theme.palette.action.hover,
   },
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down('md')]: {
     '&.mobile-optimised': {
       '& thead': {
         display: 'none',
@@ -50,7 +47,7 @@ export const MobileFirstResponsiveTableWrapper = styled(Table)(({ theme }) => ({
         alignItems: 'center',
         textAlign: 'right',
         padding: '12px 16px',
-        borderBottom: `1px solid ${theme.palette.divider}`,
+        borderBottom: 'none',
         '&:before': {
           content: 'attr(data-th)',
           fontWeight: 'bold',
@@ -58,10 +55,9 @@ export const MobileFirstResponsiveTableWrapper = styled(Table)(({ theme }) => ({
           minWidth: '30%',
           textAlign: 'left',
         },
-        '&:last-child': {
-          borderBottom: 'none',
-          justifyContent: 'flex-end',
-        },
+      },
+      '& tr:nth-of-type(even)': {
+        backgroundColor: colors.white,
       },
       '& .status-chip': {
         marginLeft: 'auto',

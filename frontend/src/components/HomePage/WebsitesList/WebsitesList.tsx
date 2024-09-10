@@ -3,12 +3,14 @@ import React from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
+  Button,
   IconButton,
   TableBody,
   TableCell,
   TableHead,
   TablePagination,
   TableRow,
+  Typography,
 } from '@mui/material';
 
 import { useRouter } from 'next/router';
@@ -64,11 +66,6 @@ export const WebsitesList: React.FC<WebsitesListProps> = props => {
     });
   };
 
-  const handleEdit = (id: string) => {
-    console.log(`Edit website with id: ${id}`);
-    // TODO: Implement edit logic
-  };
-
   const handleDelete = (id: string) => {
     console.log(`Delete website with id: ${id}`);
     // TODO: Implement delete logic
@@ -100,12 +97,15 @@ export const WebsitesList: React.FC<WebsitesListProps> = props => {
                   <StatusChip status={website.status}>{website.status}</StatusChip>
                 </TableCell>
                 <TableCell data-th="Actions">
-                  <IconButton onClick={() => handleEdit(website.id)} size="small" color="primary">
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton onClick={() => handleDelete(website.id)} size="small" color="error">
-                    <DeleteIcon />
-                  </IconButton>
+                  <Button
+                    onClick={() => handleDelete(website.id)}
+                    variant="outlined"
+                    color="error"
+                    size="small"
+                    startIcon={<DeleteIcon />}
+                  >
+                    Delete
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
