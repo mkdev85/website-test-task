@@ -1,5 +1,7 @@
 import { styled } from '@mui/material';
 
+import { colors } from '../../colors';
+
 import { StatusChipProps } from './StatusChip.props';
 
 export const StatusChipWrapper = styled('span')<StatusChipProps>(({ theme, status }) => ({
@@ -8,5 +10,5 @@ export const StatusChipWrapper = styled('span')<StatusChipProps>(({ theme, statu
   fontSize: '0.875rem',
   fontWeight: 'medium',
   backgroundColor: status === 'Online' ? theme.palette.success.light : theme.palette.error.light,
-  color: status === 'Online' ? theme.palette.success.dark : theme.palette.error.dark,
+  color: colors.white,
 }));
