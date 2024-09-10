@@ -1,35 +1,58 @@
 import React from 'react';
 
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import {
+  IconButton,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+} from '@mui/material';
+
+import { useRouter } from 'next/router';
+
+import { useGetWebsitesQuery } from '@/queries/useGetWebsitesQuery';
 import { MobileFirstResponsiveTable } from '@/ui-kit/theme/components/MobileFirstResponsiveTable/MobileFirstResponsiveTable';
 import { MobileFirstResponsiveTableContainer } from '@/ui-kit/theme/components/MobileFirstResponsiveTableContainer/MobileFirstResponsiveTableContainer';
 import { StatusChip } from '@/ui-kit/theme/components/StatusChip/StatusChip';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import { IconButton, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 
 import type { WebsitesListProps } from './WebsitesList.props';
 import { WebsitesListWrapper } from './WebsitesList.styles';
 
-export interface Website {
-  id: number;
-  name: string;
-  url: string;
-  status: 'Online' | 'Offline';
-}
-
-const dummyWebsites: Website[] = [
-  { id: 1, name: 'Example Site', url: 'https://example.com', status: 'Online' },
-  { id: 2, name: 'Test Site', url: 'https://test.com', status: 'Offline' },
-  { id: 3, name: 'Another Site', url: 'https://another.com', status: 'Online' },
-];
-
 export const WebsitesList: React.FC<WebsitesListProps> = props => {
-  const handleEdit = (id: number) => {
+  const router = useRouter();
+  const page = Math.max(1, Number(router.query.page) || 1);
+  const rowsPerPage = Number(router.query.rowsPerPage) || 10;
+  const rowsPerPageOptions = [10, 15, 20];
+
+  const { data: responseData, isLoading, isError } = useGetWebsitesQuery({ page, rowsPerPage });
+
+  const websites = responseData?.data?.websites;
+  const totalCount = responseData?.data?.totalCount;
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, page: newPage + 1 },
+    });
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newRowsPerPage = parseInt(event.target.value, 10);
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, page: 1, rowsPerPage: newRowsPerPage },
+    });
+  };
+
+  const handleEdit = (id: string) => {
     console.log(`Edit website with id: ${id}`);
     // TODO: Implement edit logic
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     console.log(`Delete website with id: ${id}`);
     // TODO: Implement delete logic
   };
@@ -47,7 +70,7 @@ export const WebsitesList: React.FC<WebsitesListProps> = props => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {dummyWebsites.map(website => (
+            {websites?.map(website => (
               <TableRow key={website.id}>
                 <TableCell data-th="Website Name" component="td" scope="row">
                   {website.name}
@@ -69,6 +92,15 @@ export const WebsitesList: React.FC<WebsitesListProps> = props => {
           </TableBody>
         </MobileFirstResponsiveTable>
       </MobileFirstResponsiveTableContainer>
+      <TablePagination
+        component="div"
+        count={totalCount || 0}
+        page={page - 1}
+        onPageChange={handleChangePage}
+        rowsPerPageOptions={rowsPerPageOptions}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </WebsitesListWrapper>
   );
 };

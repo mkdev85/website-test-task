@@ -9,6 +9,7 @@ export const StatusChipWrapper = styled('span')<StatusChipProps>(({ theme, statu
   borderRadius: '12px',
   fontSize: '0.875rem',
   fontWeight: 'medium',
-  backgroundColor: status === 'Online' ? theme.palette.success.light : theme.palette.error.light,
+  backgroundColor: status === 'online' ? theme.palette.success.light : theme.palette.error.light,
   color: colors.white,
+  textTransform: 'capitalize',
 }));

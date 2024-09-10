@@ -1,4 +1,4 @@
-import { Website } from '@/components/HomePage/WebsitesList/WebsitesList';
+import { Website } from '@/queries/useGetWebsitesQuery';
 
 export interface StatusChipProps {
   className?: string;
