@@ -10,7 +10,7 @@ export class WebsiteController {
     const page = Math.max(Number(req.query.page) || 1, 1);
     const pageSize = Math.max(Number(req.query.page_size) || 10, 1);
     const searchByWebsiteKeyword =
-      (req.query.search_By_Website_Keyword as string) || "";
+      (req.query.search_by_website_keyword as string) || "";
     const status = (req.query.status as string) || "";
 
     return responseHandler({
