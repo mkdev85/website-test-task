@@ -3,6 +3,7 @@ import React from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@mui/material';
 
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { WebsiteStatusFilter } from '@/constants/enums';
@@ -79,10 +80,14 @@ export const WebsitesList: React.FC<WebsitesListProps> = props => {
           <TableBody>
             {websites?.map(website => (
               <TableRow key={website.id}>
-                <TableCell data-th="Website Name" component="td" scope="row">
+                <TableCell className="capitalize" data-th="Website Name" component="td" scope="row">
                   {website.name}
                 </TableCell>
-                <TableCell data-th="URL">{website.url}</TableCell>
+                <TableCell data-th="URL">
+                  <Link target="_blank" href={website.url}>
+                    {website.url}
+                  </Link>
+                </TableCell>
                 <TableCell data-th="Status">
                   <StatusChip status={website.status}>{website.status}</StatusChip>
                 </TableCell>
