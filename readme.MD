@@ -38,6 +38,10 @@ A brief overview of the basic features of this app.
 
       Description: Retrieves a list of websites with pagination. By default, it returns 10 records per page and supports 
       filtering by status and name.
+
+    - **GET** `/api/v1/websites/id/status`
+
+     Retrieves the status of a specific website based on its unique identifier (id). This endpoint returns the current status of the website, such as "active", "inactive", or any other status defined in your system.
     
     - **POST** `/api/v1/websites`
 

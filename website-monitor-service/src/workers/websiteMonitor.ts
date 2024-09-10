@@ -1,28 +1,7 @@
 import { websiteMonitorQueue } from '../queue';
-import axios from 'axios';
-import { AppDataSource } from '../data-source'; 
 import { getAllWebsites } from '../services/website/getAllWebsites'; 
+import { checkWebsiteStatus } from '../utils/websiteStatus';
 
-// Function to check website status
- const checkWebsiteStatus = async (id: string, url: string) => {
-  let status: string;
-  try {
-    await axios.get(url);
-    status = 'online';
-  } catch {
-    status = 'offline';
-  }
-
-  await AppDataSource
-    .createQueryBuilder()
-    .update('websites')
-    .set({ status })
-    .where('id = :id', { id })
-    .execute();
-};
-
-
-// Process jobs from the queue
 websiteMonitorQueue.process('website-monitoring', async () => {
   const startTime = Date.now();
   console.log(`Job started at: ${new Date(startTime).toISOString()}`);
