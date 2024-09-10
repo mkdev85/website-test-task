@@ -1,17 +1,7 @@
 import React from 'react';
 
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import {
-  Button,
-  IconButton,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Button, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@mui/material';
 
 import { useRouter } from 'next/router';
 

@@ -9,7 +9,6 @@ import { useAddWebsiteMutation } from '@/queries/useAddWebsiteMutation';
 
 import type { AddWebsiteDialogProps } from './AddWebsiteDialog.props';
 import {
-  AddWebsiteDialogWrapper,
   FormContainer,
   FullWidthButton,
   StyledDialog,
@@ -30,7 +29,9 @@ export const AddWebsiteDialog: React.FC<AddWebsiteDialogProps> = props => {
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Website name is required'),
-      url: Yup.string().url('Invalid URL').required('Website URL is required'),
+      url: Yup.string()
+        .url('Invalid URL (eg. http://wwww.example.com)')
+        .required('Website URL is required'),
     }),
     onSubmit: values => {
       mutation.mutate(values, {
