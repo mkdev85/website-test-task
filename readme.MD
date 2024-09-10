@@ -35,17 +35,21 @@ A brief overview of the basic features of this app.
     **APIs:**
 
     - **GET** `/api/v1/websites`
-    Description: Retrieves a list of websites with pagination. By default, it returns 10 records per page and supports 
-    filtering by status and name.
+
+      Description: Retrieves a list of websites with pagination. By default, it returns 10 records per page and supports 
+      filtering by status and name.
     
     - **POST** `/api/v1/websites`
-    Description: Creates a new website using the status and url.
+
+      Description: Creates a new website using the status and url.
     
     - **PUT** `/api/v1/websites/:id`
-    Description: Updates a specific website's information by ID.
+
+      Description: Updates a specific website's information by ID.
     
     - **DELETE** `/api/v1/websites/:id`
-    Description: Deletes a specific website by ID.
+
+      Description: Deletes a specific website by ID.
 
 ## Libraries
 
@@ -155,6 +159,7 @@ We have divided this task into following services:
 - DB service
 
 **Frontend Service**: 
+
 - Technologies: Next.js, Material-UI, React Query.
 - Features: 
   - Website create, read and delete operation.
@@ -162,12 +167,14 @@ We have divided this task into following services:
   - State management with react-query.
 
 **DB Service**: 
+
 - Technology: PostgreSQL.
 
 **Backend service**: 
 - Exposes APIs to the frontend and interacts with the `DB service`.
 
 **Website Monitor service**: 
+
 As per the requirement, we have to check the websites status after certain periods. **Now if we use the same backend service for scheduling the cron job then there would following issues:**
 - It would block the main backend service event loop.
 - There would be latency issues for client requests.
@@ -175,7 +182,7 @@ As per the requirement, we have to check the websites status after certain perio
 
 Now, to overcome all the issues, we have created separate service i.e `website-monitor service`. This service do following:
 - It uses the `bull` package for scheduling the cron job which internally uses the `redis`for queuing.
-- We are running two cron jobs in this service:
+- We are running two `cron jobs` in this service:
   **website-monitoring**: 
    - This job runs after every 2 minutes.
    - It fetched all the websites data and check the each website status. Please have a look at the following code snippet:
