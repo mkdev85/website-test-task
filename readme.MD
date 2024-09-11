@@ -207,7 +207,7 @@ Now, to overcome all the issues, we have created separate service i.e `website-m
      - `Promise.all`: We are checking all websites status parallelly.
      - `Promise.race`: While checking the status using the above code snippet, It might possible that we don't get any response until 6-7 seconds, In such case, we stop the status checking after `3 seconds` using the `Promise.race`.
 
-   **random-website-update**: 
+   **random-website-update**: [**For the Test task only**]
     - This job is used to make `website status` more interactive on frontend side. This implementation only did for the test task, It is used only for the development mode.
     - The idea behind this job implementation is that the website status is rarely update, so we will not see any frequent status update on the frontend side. Now, to make it look more interactice, We are doing following in this job:
       - This job would run after event minutes.
