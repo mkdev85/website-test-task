@@ -25,7 +25,7 @@ class GetAllWebsitesService {
       const queryBuilder = entityManager.createQueryBuilder(Website, "website");
 
       if (searchByWebsiteKeyword) {
-        queryBuilder.andWhere("website.name ILIKE :search", {
+        queryBuilder.andWhere("website.name ILIKE :search OR website.url ILIKE :search", {
           search: `%${searchByWebsiteKeyword}%`,
         });
       }
@@ -33,7 +33,7 @@ class GetAllWebsitesService {
       const validatedStatus = Object.values(WebsiteStatus).includes(status as WebsiteStatus)? (status as WebsiteStatus): "";
 
       if (validatedStatus) {
-        queryBuilder.andWhere("website.status = :status", { status });
+        queryBuilder.andWhere("website.status =:status", { status });
       }
 
       const [websites, count] = await queryBuilder
