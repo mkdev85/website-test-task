@@ -37,9 +37,9 @@ class GetAllWebsitesService {
       }
 
       const [websites, count] = await queryBuilder
-        .orderBy("website.createdAt", "DESC")
         .skip((page - 1) * pageSize)
         .take(pageSize)
+        .orderBy("website.createdAt", "DESC")
         .getManyAndCount();
 
       return [null, { websites, totalCount: count, page, pageSize }];
