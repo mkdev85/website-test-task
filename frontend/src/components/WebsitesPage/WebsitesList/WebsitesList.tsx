@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import {
   TableBody,
@@ -23,6 +23,8 @@ import { ZeroWebsiteScreen } from '../ZeroWebsiteScreen/ZeroWebsiteScreen';
 
 import type { WebsitesListProps } from './WebsitesList.props';
 import { WebsitesListWrapper } from './WebsitesList.styles';
+
+const rowsPerPageOptions = [5, 10, 15, 20];
 
 export const WebsitesList: React.FC<WebsitesListProps> = () => {
   const router = useRouter();
@@ -77,7 +79,18 @@ export const WebsitesList: React.FC<WebsitesListProps> = () => {
   const websites = getWebsitesData?.data?.websites;
 
   const totalCount = getWebsitesData?.data?.totalCount;
-  const rowsPerPageOptions = [5, 10, 15, 20];
+
+  const websitesListJSX = useMemo(() => {
+    return websites?.map(website => (
+      <WebsiteListItem
+        key={website.id}
+        id={website.id}
+        name={website.name}
+        status={website.status}
+        url={website.url}
+      />
+    ));
+  }, [websites]);
 
   if (isGetWebsiteLoading) return <CustomLoading />;
 
@@ -88,7 +101,7 @@ export const WebsitesList: React.FC<WebsitesListProps> = () => {
   return (
     <WebsitesListWrapper>
       <Typography variant="body2" className="last-updated" color={'primary'}>
-        Last Updated : {formatLastUpdated(new Date(lastUpdated))}
+        Last Status Updated : {formatLastUpdated(new Date(lastUpdated))}
       </Typography>
       <MobileFirstResponsiveTable className="mobile-optimised" aria-label="website table">
         <TableHead>
@@ -99,17 +112,7 @@ export const WebsitesList: React.FC<WebsitesListProps> = () => {
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {websites?.map(website => (
-            <WebsiteListItem
-              key={website.id}
-              id={website.id}
-              name={website.name}
-              status={website.status}
-              url={website.url}
-            />
-          ))}
-        </TableBody>
+        <TableBody>{websitesListJSX}</TableBody>
       </MobileFirstResponsiveTable>
       <TablePagination
         component="div"

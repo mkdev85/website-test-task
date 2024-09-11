@@ -29,16 +29,17 @@ export const WebsiteSearch: React.FC<WebsiteSearchProps> = () => {
     setStatusFilter(validFilter);
   }, [router.query]);
 
-  const handleSearch = () => {
+  const handleSearch = (searchValue: string) => {
+    const trimedSearchText = searchValue.trim();
     router.push({
       pathname: router.pathname,
-      query: { ...router.query, search: searchText, filter: statusFilter, page: 1 },
+      query: { ...router.query, search: trimedSearchText, filter: statusFilter, page: 1 },
     });
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      handleSearch();
+      handleSearch(searchText);
     }
   };
 
@@ -55,6 +56,21 @@ export const WebsiteSearch: React.FC<WebsiteSearchProps> = () => {
     });
   };
 
+  const handleSearchTextChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { search: previousSearchText } = router.query;
+    const newSearchText = e.target.value;
+    setSearchText(newSearchText);
+
+    //if already search results are there and user clear the search bar , default results are displayed
+    if (
+      newSearchText === '' &&
+      typeof previousSearchText === 'string' &&
+      previousSearchText !== ''
+    ) {
+      handleSearch(newSearchText);
+    }
+  };
+
   return (
     <WebsiteSearchWrapper>
       <TextField
@@ -64,7 +80,7 @@ export const WebsiteSearch: React.FC<WebsiteSearchProps> = () => {
         id="search"
         placeholder="Search Websites by Names..."
         value={searchText}
-        onChange={e => setSearchText(e.target.value)}
+        onChange={handleSearchTextChange}
         autoComplete="off"
         onKeyDown={handleKeyDown}
       />
@@ -73,7 +89,7 @@ export const WebsiteSearch: React.FC<WebsiteSearchProps> = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={handleSearch}
+          onClick={() => handleSearch(searchText)}
           startIcon={<SearchIcon />}
         >
           Search
