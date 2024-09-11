@@ -2,6 +2,7 @@ import { randomWebsiteUpdateQueue } from "../queue";
 import { getRandomWebsiteData } from "../services/website/getRandomWebsiteData";
 import { AppDataSource } from "../data-source";
 import clc from 'cli-color';
+import { QUEUE_NAMES } from "../constant";
 
 const updateWebsiteStatus = async (id: string, currentStatus: string) => {
   const newStatus = currentStatus === 'online' ? 'offline' : 'online';
@@ -20,7 +21,7 @@ const updateWebsiteStatus = async (id: string, currentStatus: string) => {
   }
 };
 
-randomWebsiteUpdateQueue.process("random-website-update", async () => {
+randomWebsiteUpdateQueue.process(QUEUE_NAMES.RANDOM_WEBSITE_UPDATE, async () => {
   const startTime = Date.now();
   console.log(clc.blue(`Job started at: ${new Date(startTime).toISOString()}`));
 

@@ -1,8 +1,9 @@
+import { QUEUE_NAMES } from '../constant';
 import { websiteMonitorQueue } from '../queue';
 import { getAllWebsites } from '../services/website/getAllWebsites'; 
 import { checkWebsiteStatus } from '../utils/websiteStatus';
 
-websiteMonitorQueue.process('website-monitoring', async () => {
+websiteMonitorQueue.process(QUEUE_NAMES.WEBSITE_MONITOR, async () => {
   const startTime = Date.now();
   console.log(`Job started at: ${new Date(startTime).toISOString()}`);
   
