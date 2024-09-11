@@ -36,6 +36,12 @@ export const WebsiteSearch: React.FC<WebsiteSearchProps> = props => {
     });
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   const handleFilterChange = (filter: WebsiteStatusFilter) => {
     setStatusFilter(filter);
   };
@@ -55,10 +61,11 @@ export const WebsiteSearch: React.FC<WebsiteSearchProps> = props => {
         <TextField
           variant="outlined"
           size="small"
-          placeholder="Search Websites Names..."
+          placeholder="Search Websites by Names..."
           value={searchText}
           onChange={e => setSearchText(e.target.value)}
           autoComplete="off"
+          onKeyDown={handleKeyDown}
         />
         <WebsiteFilter value={statusFilter} onChange={handleFilterChange} />
         <ButtonContainer>
