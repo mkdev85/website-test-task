@@ -2,6 +2,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
 
+import { useRouter } from 'next/router';
+
+import { WebsiteStatusFilter } from '@/constants/enums';
 import { ErrorResponse } from '@/hoc/CustomQueryClientProvider';
 import api from '@/lib/api';
 import type { ReactQueryMutateOptions } from '@/lib/react-query';
@@ -19,9 +22,20 @@ export interface BackendResponse {
 export function useAddWebsiteMutation(options?: MutateOptions) {
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
+  const {
+    page = 1,
+    search = '',
+    filter = WebsiteStatusFilter.all,
+    rowsPerPage = 10,
+  } = router.query;
 
-  const { queryKey: getWebsitesQueryKey } = getGetWebsitesQuery();
-
+  const { queryKey: getWebsitesQueryKey } = getGetWebsitesQuery({
+    page: parseInt(page as string),
+    rowsPerPage: parseInt(rowsPerPage as string),
+    searchText: search as string,
+    statusFilter: filter as WebsiteStatusFilter,
+  });
   return useMutation<BackendResponse, unknown, MutationInput>({
     mutationKey: ['add-website'],
     mutationFn: async input => {
