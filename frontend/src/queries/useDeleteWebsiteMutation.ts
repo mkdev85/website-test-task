@@ -2,11 +2,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
 
+import { ErrorResponse } from '@/hoc/CustomQueryClientProvider';
 import api from '@/lib/api';
 import type { ReactQueryMutateOptions } from '@/lib/react-query';
 
 import { getGetWebsitesQuery } from './useGetWebsitesQuery';
-import { ErrorResponse } from '@/hoc/CustomQueryClientProvider';
 
 type MutateOptions = ReactQueryMutateOptions<
   DeleteWebsiteBackendResponse,
@@ -43,7 +43,7 @@ export function useDeleteWebsiteMutation(options?: MutateOptions) {
       queryClient.invalidateQueries({ queryKey: getWebsitesQueryKey });
 
       enqueueSnackbar({
-        message: 'Succesfully Removed Website',
+        message: 'Website Removed Successfully',
         variant: 'success',
         preventDuplicate: true,
       });

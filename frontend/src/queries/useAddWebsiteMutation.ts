@@ -37,7 +37,7 @@ export function useAddWebsiteMutation(options?: MutateOptions) {
       queryClient.invalidateQueries({ queryKey: getWebsitesQueryKey });
 
       enqueueSnackbar({
-        message: 'Succesfully Added Website',
+        message: 'Website Added Succesfully  ',
         variant: 'success',
         preventDuplicate: true,
       });

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Header } from '../HomePage/Header/Header';
+import { Header } from '../WebsitesPage/Header/Header';
 
 import type { LayoutProps } from './Layout.props';
 import { LayoutWrapper } from './Layout.styles';

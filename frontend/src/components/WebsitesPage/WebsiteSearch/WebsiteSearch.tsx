@@ -12,7 +12,7 @@ import { validWebsiteStatusFilter } from '@/helpers/filterHelper';
 import { WebsiteFilter } from '../WebsiteFilter/WebsiteFilter';
 
 import type { WebsiteSearchProps } from './WebsiteSearch.props';
-import { ButtonContainer, SearchContainer, SearchWrapper } from './WebsiteSearch.styles';
+import { ButtonContainer, WebsiteSearchWrapper } from './WebsiteSearch.styles';
 
 export const WebsiteSearch: React.FC<WebsiteSearchProps> = () => {
   const router = useRouter();
@@ -56,40 +56,38 @@ export const WebsiteSearch: React.FC<WebsiteSearchProps> = () => {
   };
 
   return (
-    <SearchWrapper>
-      <SearchContainer>
-        <TextField
+    <WebsiteSearchWrapper>
+      <TextField
+        variant="outlined"
+        size="small"
+        name="search"
+        id="search"
+        placeholder="Search Websites by Names..."
+        value={searchText}
+        onChange={e => setSearchText(e.target.value)}
+        autoComplete="off"
+        onKeyDown={handleKeyDown}
+      />
+      <WebsiteFilter value={statusFilter} onChange={handleFilterChange} />
+      <ButtonContainer>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSearch}
+          startIcon={<SearchIcon />}
+        >
+          Search
+        </Button>
+        <Button
           variant="outlined"
-          size="small"
-          name="search"
-          id="search"
-          placeholder="Search Websites by Names..."
-          value={searchText}
-          onChange={e => setSearchText(e.target.value)}
-          autoComplete="off"
-          onKeyDown={handleKeyDown}
-        />
-        <WebsiteFilter value={statusFilter} onChange={handleFilterChange} />
-        <ButtonContainer>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSearch}
-            startIcon={<SearchIcon />}
-          >
-            Search
-          </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={handleReset}
-            startIcon={<RestartAltIcon />}
-          >
-            Reset
-          </Button>
-        </ButtonContainer>
-      </SearchContainer>
-    </SearchWrapper>
+          color="secondary"
+          onClick={handleReset}
+          startIcon={<RestartAltIcon />}
+        >
+          Reset
+        </Button>
+      </ButtonContainer>
+    </WebsiteSearchWrapper>
   );
 };
 

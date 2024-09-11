@@ -26,8 +26,7 @@ export const CustomDialogWrapper = styled(Dialog)<MuiDialogProps>(({ theme }) =>
   '& .MuiDialogContent-root': {
     padding: theme.spacing(3),
     marginTop: theme.spacing(2),
-    paddingTop: theme.spacing(0),
-    paddingBottom: theme.spacing(0),
+
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(2),
     },

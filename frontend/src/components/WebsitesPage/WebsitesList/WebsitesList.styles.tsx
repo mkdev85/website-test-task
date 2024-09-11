@@ -1,14 +1,12 @@
-import { styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 
-export const WebsitesListWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(2),
-
+export const WebsitesListWrapper = styled(Box)(({ theme }) => ({
   '& .capitalize': {
     textTransform: 'capitalize',
   },
 
   '& .MuiTablePagination-root': {
-    padding: theme.spacing(1),
+    margin: theme.spacing(1),
     fontWeight: 'bold',
     fontSize: theme.spacing(1),
   },

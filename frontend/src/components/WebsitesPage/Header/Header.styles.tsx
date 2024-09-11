@@ -1,6 +1,6 @@
-import { styled } from '@mui/material';
+import { AppBar, styled } from '@mui/material';
 
-export const HeaderWrapper = styled('header')(({ theme }) => ({
+export const HeaderWrapper = styled(AppBar)(({ theme }) => ({
   '& .MuiToolbar-root': {
     maxWidth: theme.spacing(80),
     marginLeft: 'auto',
