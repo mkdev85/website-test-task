@@ -1,1 +1,1 @@
-export const POLLING_INTERVAL = 60000;
+export const POLLING_INTERVAL = Number(process.env.NEXT_PUBLIC_POLLING_INTERVAL) || 120000;

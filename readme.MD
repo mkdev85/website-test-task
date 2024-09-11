@@ -11,6 +11,10 @@ A brief description of what this microservice-based test task does:
 - [Technical Implementation](#technical-implementation)
   - [Basic Architechture Diagram](#basic-architechture-diagram)
   - [Implementation Details (Microservices)](#implementation-details)
+    - [Frontend Service](#frontend-service)
+    - [DB Service](#db-service)
+    - [Backend Service](#backend-service)
+    - [Website Monitor Service](#website-monitor-service)
 
 ## Usage
 
@@ -165,22 +169,29 @@ We have divided this task into following services:
   - Redis service  
 - DB service
 
-**Frontend Service**: 
+#### Frontend Service
 
 - Technologies: Next.js, Material-UI, React Query.
 - Features: 
   - Website create, read and delete operation.
+  - Server side website filtering using the `name` and `status`.
   - Responsive design with materialUI.
   - State management with react-query.
+  - **Implemented Polling using react-query**: 
+    - We are calling the `[GET] /websites API` after every 2 minutes with `page`, `page_size` selected filters parameters and showing the website status in real time.
+    - We are using polling to show the frequent `status` update only for the website record present on the frontend side. If the 10 websites showing on the frontend side then we are checking the status for the those websites only.  
+    - We are also showing the `Last status updates` time. So it would be good for the user's end.   
+    - On the Backend side, In the `website-monitoring` service, we have used one cron job `random-website-update`, which randomly selects the 10 records from the websites table and toggle the status, If status is `online` then it would change it to `offline` and if status is `offline` then change it to `online`. **This is just for test task purpose, here our intention is to show frequent updates on the frontend side**
+    - Polling default time is 2 minutes, you can configure it in `.env` file. Please check `.env.sample` file.  
 
-**DB Service**: 
+#### DB Service
 
 - Technology: PostgreSQL.
 
-**Backend service**: 
+#### Backend Service
 - Exposes APIs to the frontend and interacts with the `DB service`.
 
-**Website Monitor service**: 
+#### Website Monitor Service
 
 As per the requirement, we have to check the websites status after certain periods. **Now if we use the same backend service for scheduling the cron job then there would be following issues:**
 - It would block the main backend service event loop.
