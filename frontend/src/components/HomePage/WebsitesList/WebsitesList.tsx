@@ -1,9 +1,7 @@
 import React from 'react';
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@mui/material';
+import { TableBody, TableCell, TableHead, TablePagination, TableRow } from '@mui/material';
 
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { WebsiteStatusFilter } from '@/constants/enums';
@@ -12,8 +10,8 @@ import { useGetWebsitesQuery } from '@/queries/useGetWebsitesQuery';
 import { CustomLoading } from '@/ui-kit/theme/components/CustomLoading/CustomLoading';
 import { MobileFirstResponsiveTable } from '@/ui-kit/theme/components/MobileFirstResponsiveTable/MobileFirstResponsiveTable';
 import { MobileFirstResponsiveTableContainer } from '@/ui-kit/theme/components/MobileFirstResponsiveTableContainer/MobileFirstResponsiveTableContainer';
-import { StatusChip } from '@/ui-kit/theme/components/StatusChip/StatusChip';
 
+import { WebsiteListItem } from '../WebsiteListItem/WebsiteListItem';
 import { WebsiteSearch } from '../WebsiteSearch/WebsiteSearch';
 
 import type { WebsitesListProps } from './WebsitesList.props';
@@ -26,12 +24,12 @@ export const WebsitesList: React.FC<WebsitesListProps> = props => {
   const searchText = (router.query.search as string) || '';
   const statusFilter = (router.query.filter as string) || WebsiteStatusFilter.all;
 
-  const rowsPerPageOptions = [10, 15, 20];
+  const rowsPerPageOptions = [5, 10, 15, 20];
 
   const {
-    data: responseData,
-    isLoading,
-    isError,
+    data: getWebsitesData,
+    isLoading: isGetWebsiteLoading,
+    isError: isGetWebsiteError,
   } = useGetWebsitesQuery({
     page,
     rowsPerPage,
@@ -39,8 +37,8 @@ export const WebsitesList: React.FC<WebsitesListProps> = props => {
     statusFilter: validWebsiteStatusFilter(statusFilter),
   });
 
-  const websites = responseData?.data?.websites;
-  const totalCount = responseData?.data?.totalCount;
+  const websites = getWebsitesData?.data?.websites;
+  const totalCount = getWebsitesData?.data?.totalCount;
 
   const handleChangePage = (event: unknown, newPage: number) => {
     router.push({
@@ -57,12 +55,7 @@ export const WebsitesList: React.FC<WebsitesListProps> = props => {
     });
   };
 
-  const handleDelete = (id: string) => {
-    console.log(`Delete website with id: ${id}`);
-    // TODO: Implement delete logic
-  };
-
-  if (isLoading) return <CustomLoading />;
+  if (isGetWebsiteLoading) return <CustomLoading />;
 
   return (
     <WebsitesListWrapper>
@@ -79,43 +72,25 @@ export const WebsitesList: React.FC<WebsitesListProps> = props => {
           </TableHead>
           <TableBody>
             {websites?.map(website => (
-              <TableRow key={website.id}>
-                <TableCell className="capitalize" data-th="Website Name" component="td" scope="row">
-                  {website.name}
-                </TableCell>
-                <TableCell data-th="URL">
-                  <Link target="_blank" href={website.url}>
-                    {website.url}
-                  </Link>
-                </TableCell>
-                <TableCell data-th="Status">
-                  <StatusChip status={website.status}>{website.status}</StatusChip>
-                </TableCell>
-                <TableCell data-th="Actions">
-                  <Button
-                    onClick={() => handleDelete(website.id)}
-                    variant="outlined"
-                    color="error"
-                    size="small"
-                    startIcon={<DeleteIcon />}
-                  >
-                    Delete
-                  </Button>
-                </TableCell>
-              </TableRow>
+              <WebsiteListItem
+                id={website.id}
+                name={website.name}
+                status={website.status}
+                url={website.url}
+              />
             ))}
           </TableBody>
         </MobileFirstResponsiveTable>
+        <TablePagination
+          component="div"
+          count={totalCount || 0}
+          page={page - 1}
+          onPageChange={handleChangePage}
+          rowsPerPageOptions={rowsPerPageOptions}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </MobileFirstResponsiveTableContainer>
-      <TablePagination
-        component="div"
-        count={totalCount || 0}
-        page={page - 1}
-        onPageChange={handleChangePage}
-        rowsPerPageOptions={rowsPerPageOptions}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
     </WebsitesListWrapper>
   );
 };

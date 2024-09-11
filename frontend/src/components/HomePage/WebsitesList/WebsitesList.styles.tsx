@@ -6,4 +6,15 @@ export const WebsitesListWrapper = styled('div')(({ theme }) => ({
   '& .capitalize': {
     textTransform: 'capitalize',
   },
+
+  '& .MuiTablePagination-root': {
+    padding: theme.spacing(1),
+    fontWeight: 'bold',
+    fontSize: theme.spacing(1),
+  },
+  '& .MuiTablePagination-selectLabel, & .MuiTablePagination-input, & .MuiTablePagination-displayedRows':
+    {
+      fontWeight: 'bold',
+      fontSize: theme.spacing(1),
+    },
 }));

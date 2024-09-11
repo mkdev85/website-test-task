@@ -5,7 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import axios, { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
 
-interface ErrorResponse {
+export interface ErrorResponse {
   message: string;
 }
 

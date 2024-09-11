@@ -2,42 +2,48 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
 
-import { ErrorResponse } from '@/hoc/CustomQueryClientProvider';
 import api from '@/lib/api';
 import type { ReactQueryMutateOptions } from '@/lib/react-query';
 
 import { getGetWebsitesQuery } from './useGetWebsitesQuery';
+import { ErrorResponse } from '@/hoc/CustomQueryClientProvider';
 
-type MutateOptions = ReactQueryMutateOptions<BackendResponse, unknown, MutationInput>;
+type MutateOptions = ReactQueryMutateOptions<
+  DeleteWebsiteBackendResponse,
+  unknown,
+  DeleteWebsiteMutationInput
+>;
 
-export interface MutationInput {}
+export interface DeleteWebsiteMutationInput {
+  id: string;
+}
 
-export interface BackendResponse {
+export interface DeleteWebsiteBackendResponse {
   // TODO: define the response interface here
 }
 
-export function useAddWebsiteMutation(options?: MutateOptions) {
+export function useDeleteWebsiteMutation(options?: MutateOptions) {
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
 
   const { queryKey: getWebsitesQueryKey } = getGetWebsitesQuery();
 
-  return useMutation<BackendResponse, unknown, MutationInput>({
-    mutationKey: ['add-website'],
+  return useMutation<DeleteWebsiteBackendResponse, unknown, DeleteWebsiteMutationInput>({
+    mutationKey: ['delete-website'],
     mutationFn: async input => {
-      // TODO: set your endpoint here
-      const response = await api.post('/websites', input);
+      const { id } = input;
+      const response = await api.delete(`/websites/${id}`);
 
       if (!response.data) {
         return Promise.reject(response);
       }
-      return response.data as BackendResponse;
+      return response.data as DeleteWebsiteBackendResponse;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: getWebsitesQueryKey });
 
       enqueueSnackbar({
-        message: 'Succesfully Added Website',
+        message: 'Succesfully Removed Website',
         variant: 'success',
         preventDuplicate: true,
       });

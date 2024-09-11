@@ -1,27 +1,30 @@
 import React, { useCallback } from 'react';
 
-import { TextField } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import {
+  Box,
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { useMobileDeviceBreakpoint } from '@/hooks/useMobileDeviceBreakpoint';
 import { useAddWebsiteMutation } from '@/queries/useAddWebsiteMutation';
+import { colors } from '@/ui-kit/theme/colors';
+import { CustomDialog } from '@/ui-kit/theme/components/CustomDialog/CustomDialog';
 
 import type { AddWebsiteDialogProps } from './AddWebsiteDialog.props';
-import {
-  FormContainer,
-  FullWidthButton,
-  StyledDialog,
-  StyledDialogActions,
-  StyledDialogContent,
-  StyledDialogTitle,
-} from './AddWebsiteDialog.styles';
+import { FormContainer } from './AddWebsiteDialog.styles';
 
 export const AddWebsiteDialog: React.FC<AddWebsiteDialogProps> = props => {
   const { open, onClose } = props;
   const mutation = useAddWebsiteMutation();
 
-  const fullScreen = useMobileDeviceBreakpoint();
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -49,10 +52,19 @@ export const AddWebsiteDialog: React.FC<AddWebsiteDialogProps> = props => {
   }, [formik, onClose]);
 
   return (
-    <StyledDialog open={open} onClose={handleClose} fullScreen={fullScreen}>
-      <StyledDialogTitle>Add New Website</StyledDialogTitle>
+    <CustomDialog open={open} onClose={handleClose}>
+      <DialogTitle>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography fontSize={24} fontWeight={500}>
+            Add New Website
+          </Typography>
+          <IconButton onClick={handleClose}>
+            <CloseIcon sx={{ color: colors.white }} />
+          </IconButton>
+        </Box>
+      </DialogTitle>
       <form onSubmit={formik.handleSubmit}>
-        <StyledDialogContent>
+        <DialogContent>
           <FormContainer>
             <TextField
               fullWidth
@@ -63,6 +75,7 @@ export const AddWebsiteDialog: React.FC<AddWebsiteDialogProps> = props => {
               onChange={formik.handleChange}
               error={formik.touched.name && Boolean(formik.errors.name)}
               helperText={formik.touched.name && formik.errors.name}
+              autoComplete="off"
             />
             <TextField
               fullWidth
@@ -73,22 +86,26 @@ export const AddWebsiteDialog: React.FC<AddWebsiteDialogProps> = props => {
               onChange={formik.handleChange}
               error={formik.touched.url && Boolean(formik.errors.url)}
               helperText={formik.touched.url && formik.errors.url}
+              autoComplete="off"
             />
           </FormContainer>
-        </StyledDialogContent>
-        <StyledDialogActions>
-          <FullWidthButton onClick={handleClose}>Cancel</FullWidthButton>
-          <FullWidthButton
+        </DialogContent>
+        <DialogActions>
+          <Button size="large" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button
+            size="large"
             type="submit"
             variant="contained"
             color="primary"
             disabled={mutation.isPending}
           >
             {mutation.isPending ? 'Adding...' : 'Add Website'}
-          </FullWidthButton>
-        </StyledDialogActions>
+          </Button>
+        </DialogActions>
       </form>
-    </StyledDialog>
+    </CustomDialog>
   );
 };
 

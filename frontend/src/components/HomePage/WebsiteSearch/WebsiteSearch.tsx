@@ -55,9 +55,10 @@ export const WebsiteSearch: React.FC<WebsiteSearchProps> = props => {
         <TextField
           variant="outlined"
           size="small"
-          placeholder="Search websites..."
+          placeholder="Search Websites Names..."
           value={searchText}
           onChange={e => setSearchText(e.target.value)}
+          autoComplete="off"
         />
         <WebsiteFilter value={statusFilter} onChange={handleFilterChange} />
         <ButtonContainer>
