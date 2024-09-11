@@ -20,6 +20,10 @@ A brief description of what this microservice-based test task does:
 
 A brief overview of the basic features of this app.
 
+App screenshot:
+
+![Diagram](https://drive.google.com/uc?export=view&id=1PiIWqhu9O69Qz3GG2r5KlJqA93EKS06Q)
+
 - **Frontend**
   The frontend includes two main functionalities:
 
@@ -155,7 +159,7 @@ Some other `make commands` for the `docker services`:
 
 ### Basic Architechture diagram: 
     
-   ![Diagram](https://drive.google.com/uc?export=view&id=1n_09rE5xg_CPiNM37G7FXcfZoF53oO8L)
+  ![Diagram](https://drive.google.com/uc?export=view&id=1n_09rE5xg_CPiNM37G7FXcfZoF53oO8L)
     
 ### Implementation Details
 
