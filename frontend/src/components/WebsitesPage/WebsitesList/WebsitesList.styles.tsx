@@ -1,8 +1,18 @@
 import { Box, styled } from '@mui/material';
 
 export const WebsitesListWrapper = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+
   '& .capitalize': {
     textTransform: 'capitalize',
+  },
+
+  '& .last-updated': {
+    display: 'flex',
+    marginBottom: theme.spacing(1),
+    alignSelf: 'end',
+    fontWeight: 'bold',
   },
 
   '& .MuiTablePagination-root': {

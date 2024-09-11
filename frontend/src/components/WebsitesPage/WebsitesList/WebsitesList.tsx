@@ -11,6 +11,7 @@ import {
 
 import { useRouter } from 'next/router';
 
+import { POLLING_INTERVAL } from '@/constants/constants';
 import { WebsiteStatusFilter } from '@/constants/enums';
 import { validWebsiteStatusFilter } from '@/helpers/filterHelper';
 import { useGetWebsitesQuery } from '@/queries/useGetWebsitesQuery';
@@ -31,12 +32,23 @@ export const WebsitesList: React.FC<WebsitesListProps> = () => {
   const searchText = (router.query.search as string) || '';
   const statusFilter = (router.query.filter as string) || WebsiteStatusFilter.all;
 
-  const { data: getWebsitesData, isLoading: isGetWebsiteLoading } = useGetWebsitesQuery({
-    page,
-    rowsPerPage,
-    searchText,
-    statusFilter: validWebsiteStatusFilter(statusFilter),
-  });
+  const {
+    data: getWebsitesData,
+    isLoading: isGetWebsiteLoading,
+    dataUpdatedAt: lastUpdated,
+  } = useGetWebsitesQuery(
+    {
+      page,
+      rowsPerPage,
+      searchText,
+      statusFilter: validWebsiteStatusFilter(statusFilter),
+    },
+    {
+      refetchInterval: POLLING_INTERVAL,
+      refetchIntervalInBackground: true,
+      notifyOnChangeProps: ['data', 'isLoading', 'dataUpdatedAt'],
+    },
+  );
 
   const handleChangePage = (event: unknown, newPage: number) => {
     router.push({
@@ -53,6 +65,15 @@ export const WebsitesList: React.FC<WebsitesListProps> = () => {
     });
   };
 
+  const formatLastUpdated = (date: Date | null) => {
+    if (!date) return 'Long time ago';
+    return date.toLocaleString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+  };
+
   const websites = getWebsitesData?.data?.websites;
 
   const totalCount = getWebsitesData?.data?.totalCount;
@@ -66,6 +87,9 @@ export const WebsitesList: React.FC<WebsitesListProps> = () => {
 
   return (
     <WebsitesListWrapper>
+      <Typography variant="body2" className="last-updated" color={'primary'}>
+        Last Updated : {formatLastUpdated(new Date(lastUpdated))}
+      </Typography>
       <MobileFirstResponsiveTable className="mobile-optimised" aria-label="website table">
         <TableHead>
           <TableRow>
