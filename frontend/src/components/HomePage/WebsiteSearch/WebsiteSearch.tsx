@@ -14,7 +14,7 @@ import { WebsiteFilter } from '../WebsiteFilter/WebsiteFilter';
 import type { WebsiteSearchProps } from './WebsiteSearch.props';
 import { ButtonContainer, SearchContainer, SearchWrapper } from './WebsiteSearch.styles';
 
-export const WebsiteSearch: React.FC<WebsiteSearchProps> = props => {
+export const WebsiteSearch: React.FC<WebsiteSearchProps> = () => {
   const router = useRouter();
   const [searchText, setSearchText] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<WebsiteStatusFilter>(WebsiteStatusFilter.all);
@@ -61,6 +61,8 @@ export const WebsiteSearch: React.FC<WebsiteSearchProps> = props => {
         <TextField
           variant="outlined"
           size="small"
+          name="search"
+          id="search"
           placeholder="Search Websites by Names..."
           value={searchText}
           onChange={e => setSearchText(e.target.value)}

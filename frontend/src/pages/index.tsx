@@ -6,7 +6,7 @@ import { HomePageProps } from '@/components/HomePage/HomePage.props';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
-const Home: NextPage<HomePageProps> = props => {
+const Home: NextPage<HomePageProps> = () => {
   return (
     <>
       <Head>

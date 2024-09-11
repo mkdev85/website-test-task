@@ -7,7 +7,7 @@ import { AddWebsiteDialog } from '../AddWebsiteDialog/AddWebsiteDialog';
 import type { AddWebsiteButtonProps } from './AddWebsiteButton.props';
 import { AddWebsiteButtonWrapper } from './AddWebsiteButton.styles';
 
-export const AddWebsiteButton: React.FC<AddWebsiteButtonProps> = props => {
+export const AddWebsiteButton: React.FC<AddWebsiteButtonProps> = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDialogOpen = () => {

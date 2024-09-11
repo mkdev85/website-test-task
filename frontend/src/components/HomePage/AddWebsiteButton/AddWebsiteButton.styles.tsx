@@ -1,3 +1,3 @@
 import { styled } from '@mui/material';
 
-export const AddWebsiteButtonWrapper = styled('div')(({ theme }) => ({}));
+export const AddWebsiteButtonWrapper = styled('div')(() => ({}));

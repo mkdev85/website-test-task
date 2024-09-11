@@ -17,7 +17,7 @@ import { WebsiteSearch } from '../WebsiteSearch/WebsiteSearch';
 import type { WebsitesListProps } from './WebsitesList.props';
 import { WebsitesListWrapper } from './WebsitesList.styles';
 
-export const WebsitesList: React.FC<WebsitesListProps> = props => {
+export const WebsitesList: React.FC<WebsitesListProps> = () => {
   const router = useRouter();
   const page = Math.max(1, Number(router.query.page) || 1);
   const rowsPerPage = Number(router.query.rowsPerPage) || 10;
@@ -26,11 +26,7 @@ export const WebsitesList: React.FC<WebsitesListProps> = props => {
 
   const rowsPerPageOptions = [5, 10, 15, 20];
 
-  const {
-    data: getWebsitesData,
-    isLoading: isGetWebsiteLoading,
-    isError: isGetWebsiteError,
-  } = useGetWebsitesQuery({
+  const { data: getWebsitesData, isLoading: isGetWebsiteLoading } = useGetWebsitesQuery({
     page,
     rowsPerPage,
     searchText,
@@ -73,6 +69,7 @@ export const WebsitesList: React.FC<WebsitesListProps> = props => {
           <TableBody>
             {websites?.map(website => (
               <WebsiteListItem
+                key={website.id}
                 id={website.id}
                 name={website.name}
                 status={website.status}

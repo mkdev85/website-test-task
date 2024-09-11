@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography } from '@mui/material';
 
 import { AddWebsiteButton } from '../AddWebsiteButton/AddWebsiteButton';
 
 import { HeaderProps } from './Header.props';
 import { HeaderWrapper } from './Header.styles';
 
-export const Header: React.FC<HeaderProps> = props => {
+export const Header: React.FC<HeaderProps> = () => {
   return (
     <HeaderWrapper>
       <AppBar position="static">
